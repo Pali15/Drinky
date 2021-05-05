@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\Bakó Pál\.Rider2019.3\config\scratches" t="IncludeRecursive" />
+    <e p="C:\Users\Bakó Pál\.Rider2019.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Bakó Pál\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_Drinking Game.-1319140063.00" t="ExcludeRecursive" />
+    <e p="D:\unity\Drinking Game" t="IncludeRecursive">
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="BusDriver.cs" t="Include" />
+        <e p="ButtonManager.cs" t="Include" />
+        <e p="CardManager.cs" t="Include" />
+        <e p="GamaModeSelect.cs" t="Include" />
+        <e p="NameInput.cs" t="Include" />
+        <e p="PlayerManager.cs" t="Include" />
+        <e p="PlayersInput.cs" t="Include" />
+        <e p="RussianRoulette.cs" t="Include" />
+        <e p="Scripts" t="Include">
+          <e p="Card.cs" t="Include" />
+          <e p="CardManager.cs" t="Include" />
+          <e p="GameManager.cs" t="Include" />
+          <e p="GameModes.cs" t="Include" />
+        </e>
+        <e p="WhatsinThePocket.cs" t="Include" />
+      </e>
+      <e p="Drinking Game.sln" t="IncludeFlat" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="Packages" t="ExcludeRecursive" />
+      <e p="Temp\bin" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>
