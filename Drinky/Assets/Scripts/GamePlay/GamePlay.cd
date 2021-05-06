@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="BusDriver">
+    <Position X="10.25" Y="4.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>FAAAoEAAACgDAYQAQkACAAAggAAAQEAAABQCAAAABIA=</HashCode>
+      <FileName>Assets\Scripts\GamePlay\BusDriver.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WhatsinThePocket">
+    <Position X="6.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\GamePlay\WhatsinThePocket.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RussianRoulette">
+    <Position X="8.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\GamePlay\RussianRoulette.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameMode">
+    <Position X="8.25" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AEREAAAAACIAAAAAQAACAAAgAAAAAEAAIAACAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\GamePlay\GameMode.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="deck" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Deck" Collapsed="true">
+    <Position X="5" Y="0.75" Width="1.5" />
+    <AssociationLine Name="cards" Type="Card">
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.11" Y="0.06" Height="0.182" Width="1.468" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>BAQAQAAIACAAAAABAAgCAABAABAAEAAAAAACAACAEAA=</HashCode>
+      <FileName>Assets\Scripts\GamePlay\Deck.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="cards" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Card" Collapsed="true">
+    <Position X="1.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAAgAIACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\GamePlay\Card.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GamaModeSelect">
+    <Position X="1.5" Y="5.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAIAAAAKAUAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\GamePlay\GamaModeSelect.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameManager">
+    <Position X="1.5" Y="2.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAQEgAAAACAAAAAAAAAAAAAAAAAAAAAAAAAgAAIAAEA=</HashCode>
+      <FileName>Assets\Scripts\GamePlay\GameManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="gameModes" />
+      <Field Name="CurrentGameMode" />
+    </ShowAsAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
