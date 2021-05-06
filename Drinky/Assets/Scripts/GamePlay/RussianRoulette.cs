@@ -6,219 +6,219 @@ using UnityEngine.UI;
 
 public class RussianRoulette : GameMode
 {
-    /*[SerializeField] private int currentIndex = 0;
-    [SerializeField] private Text nameText;
-    [SerializeField] private Text gameEndText;
-    [SerializeField] private Text cardsText;
-    [SerializeField] private Text shotsText;
-    [SerializeField] private Text cardNum;
-
+    /// <summary>
+    /// true if the player stoppped
+    /// </summary>
     [SerializeField] private bool stop;
-    [SerializeField] private bool gameover;
 
+    /// <summary>
+    /// true if the player pulled a black card
+    /// </summary>
+    [SerializeField] private bool gameOver;
+
+    /// <summary>
+    /// number of cards in the deck
+    /// </summary>
     [SerializeField] private int bullets = 6;
-    
+
+    /// <summary>
+    /// the ingame deck
+    /// </summary>
+    [SerializeField] private PartialDeck partailDeck;
+
+
     public void Start()
     {
-        cardNum.text = bullets.ToString();
+        cardNumText.text = bullets.ToString();
     }
 
     public void StartGame()
     {
         base.StartGame();
-        Init();
+        Init(false);
     }
 
-    public override void Init()
+    /// <summary>
+    /// Initalizes the game to start
+    /// </summary>
+    /// <param name="b"></param>
+    public override void Init(bool b)
     {
-        base.Init();
-        cards=new Card[bullets];
-        SetCards();
-        
-        nameText.text = PlayerManager._instance.names[0];
-        
-        cards[0].gameObject.SetActive(true);
-        if (!cards[0].isRed)
-        {
-            gameover = true;
-            CheckGameEnd();
-        }else
-        {
-            CurrentPlayerIncrease();
-            nameText.text = PlayerManager._instance.names[PlayerManager._instance.currentPlayer];
-        }
+        base.Init(b);
+
+        SetCards();//setting the partialDeck
+
+        //setting the texts
+        nameText.text = PlayerManager._instance.getCurrentPlayer();
            
-        cardsText.text = bullets.ToString()+" / "+(currentIndex + 1).ToString();;
-        shotsText.text = (currentIndex + 1).ToString();
+        cardsClearedText.text = bullets.ToString()+" / "+(pulledCards).ToString();;
+        shotsText.text = (pulledCards).ToString();
     }
     
+    /// <summary>
+    /// Sets the inGameDeck
+    /// </summary>
     void SetCards()
     {
-        int randidx = Random.Range(0, 52);
-        
-        while (CardManager._instance.cards[randidx].isRed)
+        List<Card> inGameDeck = new List<Card>();//List of cards which are going to get in the partial deck
+
+        //placeing a black card in the inGameDeck
+        int blackCardIdx = Random.Range(0, 52);
+
+        while (deck.cards[blackCardIdx].isRed)
         {
-            randidx = Random.Range(0, 52);
+            blackCardIdx = Random.Range(0, 52);
         }
 
-        int blackIndex = Random.Range(0, bullets);
-        Debug.Log(blackIndex.ToString());
+        inGameDeck.Add(deck.cards[blackCardIdx]);//adding the black card
 
-        cards[blackIndex] = CardManager._instance.cards[randidx];
-
-        for (int i = 0; i < bullets; i++)
+        //filling the rest place with red cards
+        for(int i=1; i<bullets; i++)
         {
-            if (i != blackIndex)
+            //choosing a new red card 
+            int redCardIdx = Random.Range(0, 52);
+
+            while((!deck.cards[redCardIdx].isRed || inGameDeck.Contains(deck.cards[redCardIdx])))
             {
-                randidx = Random.Range(0, 52);
-                while (!CardManager._instance.cards[randidx].isRed || cards.Contains(CardManager._instance.cards[randidx])) 
-                {
-                    randidx = Random.Range(0, 52);
-                }
-                cards[i] = CardManager._instance.cards[randidx];
+                redCardIdx = Random.Range(0, 52);
+
             }
-            
+
+            inGameDeck.Add(deck.cards[redCardIdx]);
         }
 
+        partailDeck.Init(true, inGameDeck);//initalizes the deck
+        partailDeck.Shuffle();
     }
 
+    /// <summary>
+    /// Handles if the round is over
+    /// </summary>
+    protected void GameOver()
+    {
+        inGameButtons.SetActive(false);
+        continueButton.SetActive(true);
+
+        shotsText.text = (pulledCards+1).ToString();
+
+        gameOver = false;
+        stop = false;
+        
+    }
+
+    /// <summary>
+    /// Checks if the round is ended and handles that
+    /// </summary>
     public override void CheckGameEnd()
     {
         base.CheckGameEnd();
         
-        if (gameover)
+        if (gameOver)//pulled a black card
         {
-            gameEndText.text = PlayerManager._instance.names[PlayerManager._instance.currentPlayer] + " drink " + (currentIndex + 1).ToString();
+            gameEndText.text = PlayerManager._instance.getCurrentPlayer() + " drink " + (pulledCards+1).ToString();
             StartCoroutine(TextAnimation(2f, gameEndText));
-            StartCoroutine(Restart(2.2f));
+            GameOver();
         }
 
-        if (stop)
+        if (stop)//stopped
         {
-            gameEndText.text = PlayerManager._instance.names[PlayerManager._instance.currentPlayer] + " drink 2";
+            gameEndText.text = PlayerManager._instance.getCurrentPlayer() + " drink 2";
             StartCoroutine(TextAnimation(2f, gameEndText));
-            StartCoroutine(Restart(2.2f));
-        }
+            GameOver();
+        }       
     }
-    
 
+    /// <summary>
+    /// if the player pressed the stop button
+    /// </summary>
     public void Stop()
     {
-        if((gameover || stop) || currentIndex==bullets-2)
+        if((gameOver || stop) || pulledCards==bullets-1)//if the player cant stop
             return;
         
         stop = true;
         CheckGameEnd();
     }
 
+    /// <summary>
+    /// if the player pressed the go button
+    /// </summary>
     public void Go()
     {
-        if(gameover || stop)
+        if(gameOver || stop)//if the player can't press the go button
             return;
 
-        cards[currentIndex].gameObject.SetActive(false);
-        currentIndex++;
+        PullCard();//pulls a card
+
+        cardsClearedText.text = bullets.ToString()+" / "+(pulledCards).ToString();//refreshes the texts
         
-        cards[currentIndex].gameObject.SetActive(true);
-        
-        shotsText.text = (currentIndex +1 ).ToString();
-        cardsText.text = bullets.ToString()+" / "+(currentIndex + 1).ToString();;
-        
-        if (!cards[currentIndex].isRed)
+        if (!partailDeck.currentCard.isRed)//checking lose condition
         {
-            gameover = true;
+            gameOver = true;
             CheckGameEnd();
         }
         else
         {
-            ShowNextPlayer();
+            NextPlayer();//go for the next player
         }
     }
-    
-    IEnumerator TextAnimation(float t, Text text)
-    {
-        text.gameObject.SetActive(true);
 
-        var rate = 1 / t;
-        float i = 1;
-        while (i > 0)
-        {
-            i -= Time.deltaTime * rate;
-            text.color = new Color(text.color.r, text.color.g, text.color.b, i);
-            yield return null;
-        }
-        
-        text.gameObject.SetActive(false);
-        text.color = new Color(text.color.r, text.color.g, text.color.b, 1);
+    /// <summary>
+    /// Pulling from partial deck
+    /// </summary>
+    protected override void PullCard()
+    {
+        partailDeck.PullCard();
+        pulledCards++;
     }
 
-    IEnumerator Restart(float t)
+    /// <summary>
+    /// Start a new round
+    /// </summary>
+    public void NewRound()
     {
-        yield return new WaitForSeconds(t);
+        //setting the next playeer
+        NextPlayer();
         
-        CurrentPlayerIncrease();
-        
-        gameover = false;
+        //setting back to default value
+        gameOver = false;
         stop = false;
 
-        for (int i = 0; i < currentIndex + 1; i++)
-        {
-            cards[i].gameObject.SetActive(false);
-        }
-        SetCards();
-        
-        cards[0].gameObject.SetActive(true);
-        nameText.text = PlayerManager._instance.names[PlayerManager._instance.currentPlayer];
+        //setting the deck
+        partailDeck.HideCards();
+        partailDeck.previousCard = null;
 
-        currentIndex = 0;
-        shotsText.text = (currentIndex + 1).ToString();
-        cardsText.text = bullets.ToString()+" / "+(currentIndex + 1).ToString();;
-        
-        if (!cards[0].isRed)
-        {
-            gameover = true;
-            CheckGameEnd();
-        }
-        else
-        {
-            nameText.text = PlayerManager._instance.names[PlayerManager._instance.currentPlayer];
-        }
-        
-    }
-    
-    public void ShowNextPlayer()
-    {
-        CurrentPlayerIncrease();
-        nameText.text = PlayerManager._instance.names[PlayerManager._instance.currentPlayer];
+        pulledCards = 0;
+
+        Init(false);
+
+        //setting the texts
+        gameEndText.gameObject.SetActive(false);
+        shotsText.text = pulledCards.ToString();
+
+        //resetting the buttons
+        inGameButtons.SetActive(true);
+        continueButton.SetActive(false);
     }
 
-    public void CurrentPlayerIncrease()
-    {
-        if (PlayerManager._instance.currentPlayer < GameManager._instance.playersNum-1)
-        {
-            PlayerManager._instance.currentPlayer++;
-        }
-        else
-        {
-            PlayerManager._instance.currentPlayer = 0;
-        }
-    }
-
+    /// <summary>
+    /// Adds more card in partialDeck
+    /// </summary>
     public void plus()
     {
         bullets++;
-        cardNum.text = bullets.ToString();
+        cardNumText.text = bullets.ToString();
     }
 
+    /// <summary>
+    /// Removes a card from partialDeck
+    /// </summary>
     public void minus()
     {
         if (bullets > 6)
         {
             bullets--;
-            cardNum.text = bullets.ToString();
-        }
-           
+            cardNumText.text = bullets.ToString();
+        }    
     }
-    
-    */
 }

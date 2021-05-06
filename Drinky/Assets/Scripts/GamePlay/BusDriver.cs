@@ -11,19 +11,9 @@ public class BusDriver : GameMode
     private int cardNum;
 
     /// <summary>
-    /// number of pulled cards
-    /// </summary>
-    private int pulledCards=0;
-
-    /// <summary>
     /// number of shots
     /// </summary>
     private int shots = 0;
-
-    /// <summary>
-    /// the previous card
-    /// </summary>
-    private Card previousCard = null;
 
     /// <summary>
     /// true if the player lost the round
@@ -35,18 +25,9 @@ public class BusDriver : GameMode
     /// </summary>
     [SerializeField] private bool cleared;
 
-    #region texts
-    [SerializeField] private Text gameEndText;
-    [SerializeField] private Text cardsClearedText;
-    [SerializeField] private Text shotsText;
-    
-    [SerializeField] private Text cardNumText;
-    [SerializeField] private Text winText;
-    #endregion
 
-    [SerializeField] private GameObject inGameButtons;
-    [SerializeField] private GameObject continueButton;
-    
+    [SerializeField] private Text winText;
+
     public void Start()
     {
         cardNumText.text = cardNum.ToString();
@@ -55,12 +36,12 @@ public class BusDriver : GameMode
     public override void StartGame()
     {
         base.StartGame();
-        Init();
+        Init(true);
     }
     
-    public override void Init()
+    public override void Init(bool b)
     {
-        base.Init();
+        base.Init(b);
         
         shotsText.text = shots.ToString();
         cardsClearedText.text = cardNum.ToString() + " / 0";
@@ -70,10 +51,10 @@ public class BusDriver : GameMode
     
     /// handles if the player lost the round
     /// <param name="t">time it waits</param>
-    IEnumerator  GameOver(float t)
+    protected IEnumerator  GameOver(float t)
     {
         yield return new WaitForSeconds(t);
-        
+
         //sets the shotText
         shots += pulledCards;
         shotsText.text = shots.ToString();
@@ -141,32 +122,6 @@ public class BusDriver : GameMode
     }
 
     /// <summary>
-    /// pulls a card
-    /// </summary>
-    private void PullCard()
-    {
-        if (previousCard != null)//making the previous card invisible
-        {
-            previousCard.gameObject.SetActive(false);
-        }
-
-        //pulling a new card and setting the previous card
-        previousCard = deck.currentCard;
-        deck.PullCard();
-
-        //moving the previous card under the current card
-        previousCard.transform.position = new Vector3(-1, -1, 0);
-        previousCard.GetComponent<SpriteRenderer>().sortingOrder = -11;
-
-        //making the current card visible
-        deck.currentCard.transform.position = new Vector3(0, 0, 0);
-        deck.currentCard.GetComponent<SpriteRenderer>().sortingOrder = 0;
-        deck.currentCard.gameObject.SetActive(true);
-
-        pulledCards++;
-    }
-
-    /// <summary>
     /// handles if the lower or higher button is pressed
     /// </summary>
     /// <param name="higher">true if the higher button was pressed</param>
@@ -180,7 +135,7 @@ public class BusDriver : GameMode
         PullCard();//pulling a card
 
         //if the current or the previous card is ace then the game over is impossible
-        if (deck.currentCard.value != 1 && previousCard.value != 1)//if the previous card is not ace nor the current card
+        if (deck.currentCard.value != 1 && deck.previousCard.value != 1)//if the previous card is not ace nor the current card
         {
             /*
              * higher is true if we pressed the higher button and false we if pressed the lower button
@@ -188,7 +143,7 @@ public class BusDriver : GameMode
              * if the previus card's value is greater then the current card's value and higher is true the player lost
              * if the previus card's value is smaller then the current card's value and higher is false the player lost
              */
-            if ( previousCard.value > deck.currentCard.value == higher && previousCard.value != deck.currentCard.value)//lose condition
+            if ( deck.previousCard.value > deck.currentCard.value == higher && deck.previousCard.value != deck.currentCard.value)//lose condition
             {
                 //game over
                 gameOver = true;
@@ -216,11 +171,11 @@ public class BusDriver : GameMode
 
         HideCards();
 
-        deck.ResetCards();
+        deck.ResetCards(true);
        
         cardsClearedText.text = cardNum.ToString() + " / 0";
 
-        previousCard = null;
+        deck.previousCard = null;
 
         //resetting the buttons
         inGameButtons.SetActive(true);
@@ -245,27 +200,4 @@ public class BusDriver : GameMode
             cardNum--;
         cardNumText.text = cardNum.ToString();
     }
-    
-    /// <summary>
-    /// Animates a text
-    /// </summary>
-    /// <param name="t">the duration of the animation</param>
-    /// <param name="text">the text we animate</param>
-    IEnumerator TextAnimation(float t, Text text)
-    {
-        text.gameObject.SetActive(true);
-
-        var rate = 1 / t;
-        float i = 1;
-        while (i > 0)
-        {
-            i -= Time.deltaTime * rate;
-            text.color = new Color(text.color.r, text.color.g, text.color.b, i);
-            yield return null;
-        }
-        
-        text.gameObject.SetActive(false);
-        text.color = new Color(text.color.r, text.color.g, text.color.b, 1);
-    }
-
 }

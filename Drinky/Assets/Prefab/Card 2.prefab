@@ -50,8 +50,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be3e4ca65ba85a54788f5398d74864b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  value: 9
-  isRed: 1
+  value: 13
+  isRed: 0
 --- !u!222 &7255096469004235946
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -99,8 +99,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1199516568418198795, guid: 98c2ec81e0d0a1e46a94296fa551e36c,
-    type: 3}
+  m_Sprite: {fileID: -94373237237266779, guid: 98c2ec81e0d0a1e46a94296fa551e36c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

@@ -71,6 +71,7 @@
     <Compile Include="Assets\Scripts\GamePlay\GamaModeSelect.cs" />
     <Compile Include="Assets\Scripts\GamePlay\GameManager.cs" />
     <Compile Include="Assets\Scripts\GamePlay\GameMode.cs" />
+    <Compile Include="Assets\Scripts\GamePlay\PartialDeck.cs" />
     <Compile Include="Assets\Scripts\GamePlay\RussianRoulette.cs" />
     <Compile Include="Assets\Scripts\GamePlay\WhatsinThePocket.cs" />
     <Compile Include="Assets\Scripts\Players\NameInput.cs" />

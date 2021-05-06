@@ -13,22 +13,21 @@ public class Deck : MonoBehaviour
     public int CurrentIdx
     {
         get;
-        private set;
+        protected set;
     }
-
-    private List<int> pulledIdxs;
 
     //sprites of the cards
     public Sprite[] sprites;
 
     //card object
-    [SerializeField] Card _card;
+   [SerializeField] protected Card _card;
 
     //list of the cards
     public Card[] cards;
 
     //the current card
     public Card currentCard;
+    public Card previousCard=null;
 
     // Start is called before the first frame update
     void Start()
@@ -43,9 +42,10 @@ public class Deck : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets the initial values to the cards attributes
+    /// Sets the deck
     /// </summary>
-    private void SetCards()
+    /// <param name="cardsList">the costum cards which will be in the deck</param>
+    protected virtual void SetCards(List<Card> cardsList=null)
     {
         for (int i = 0; i < 4; i++)
         {
@@ -61,32 +61,39 @@ public class Deck : MonoBehaviour
                 {
                     cards[j + (i * 13)].isRed = true;//setting isRead true if the card is red
                 }
+                else
+                {
+                    cards[j + (i * 13)].isRed = false;
+                }
 
                 cards[j + (i * 13)].gameObject.SetActive(false);//making it invisible
             }
-        }
-
-      
+        }      
     }
 
     /// <summary>
     /// Sets the cards and shuffles them
-    /// The first card gets visible
+    /// The first card gets visible if b is true
     /// </summary>
-    public void Init()
+    /// <param name="b">firts card will be visible if it is true</param>
+    /// <param name="cardsList">the costum cards which will be in the deck</param>
+    public virtual void Init(bool b, List<Card> cardList = null)
     {
-        SetCards();
-        ResetCards();
+       SetCards(cardList);
+       ResetCards(b);
     }
 
     /// <summary>
-    /// shuffles the pack and resets every attribute to it's default value
+    /// shuffles the pack and resets every attribute to it's default value, and making the frist card visible if b is true
     /// </summary>
-    public void ResetCards()
+    /// <param name="b">firts card will be visible if it is true</param>
+    public void ResetCards(bool b)
     {
         Shuffle();
+
         CurrentIdx = 0;
-        cards[0].gameObject.SetActive(true);
+
+        cards[0].gameObject.SetActive(b);
         currentCard = cards[0];
         currentCard.transform.position = new Vector3(0, 0, 0);
     }
@@ -107,7 +114,6 @@ public class Deck : MonoBehaviour
     /// </summary>
     public void Shuffle()
     {
-       
         for (int i=0; i<300; i++)
         {
             //getting two uniqe random index
@@ -129,16 +135,31 @@ public class Deck : MonoBehaviour
     /// <summary>
     /// return the next card from the deck
     /// </summary>
-    /// <returns>Card - the next card from the deck</returns>
-    public void PullCard()
+    public virtual void PullCard()
     {
+        if (previousCard != null)//making the previous card invisible
+        {
+            previousCard.gameObject.SetActive(false);
+        }
+
+        //pulling a new card and setting the previous card
+        previousCard = currentCard;
+
         if (CurrentIdx < cards.Length - 2)
         {
             currentCard = cards[++CurrentIdx];
         }
         else//if we reached the last card from the deck
         { 
-            ResetCards();
+            ResetCards(true);
         }
+
+        previousCard.transform.position = new Vector3(-1, -1, 0);
+        previousCard.GetComponent<SpriteRenderer>().sortingOrder = -11;
+
+        //making the current card visible
+        currentCard.transform.position = new Vector3(0, 0, 0);
+        currentCard.GetComponent<SpriteRenderer>().sortingOrder = 0;
+        currentCard.gameObject.SetActive(true);
     }
 }
