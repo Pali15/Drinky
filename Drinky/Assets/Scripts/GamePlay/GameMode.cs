@@ -78,18 +78,23 @@ public class GameMode : MonoBehaviour
     /// <summary>
     /// pulls a card
     /// </summary>
-    protected virtual void PullCard()
+    /// <param name="currentCardPos">Position where the new card will be placed</param>
+    protected virtual void PullCard(Vector3 currentCardPos)
     {
-        deck.PullCard();
+        deck.PullCard(currentCardPos);
         pulledCards++;
     }
 
+    /// <summary>
+    /// hides the cards
+    /// </summary>
     public void HideCards()
     {
         deck.HideCards();
     }
+
     /// <summary>
-    /// Animates a text
+    /// Animates the text
     /// </summary>
     /// <param name="t">the duration of the animation</param>
     /// <param name="text">the text we animate</param>
@@ -108,6 +113,32 @@ public class GameMode : MonoBehaviour
 
         text.gameObject.SetActive(false);
         text.color = new Color(text.color.r, text.color.g, text.color.b, 1);
+    }
+
+    /// <summary>
+    /// Sets the next player, makes the continue button inactive and the ingame buttons active
+    /// </summary>
+    public virtual void ContinuePressed()
+    {
+        NextPlayer();//settin the next player
+        SwitchInGameContinueButtons();
+    }
+
+    /// <summary>
+    /// Start a new round
+    /// </summary>
+    public virtual void NewRound()
+    {
+
+    }
+
+    /// <summary>
+    /// Switches the inGame buttons with the continue button
+    /// </summary>
+    protected void SwitchInGameContinueButtons()
+    {
+        inGameButtons.SetActive(!inGameButtons.activeSelf);
+        continueButton.SetActive(!continueButton.activeSelf);
     }
 
     // Update is called once per frame

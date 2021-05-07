@@ -8,7 +8,7 @@ public class NameInput : MonoBehaviour
 {
 
     /// <summary>
-    /// In the end of editing it sets name of the player
+    /// In the end of editing the inputfield it sets name of the player
     /// </summary>
     public void OnEndEdit()
     {

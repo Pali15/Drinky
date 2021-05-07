@@ -100,7 +100,7 @@ public class PlayerManager : MonoBehaviour
     /// <summary>
     /// Adds a player
     /// </summary>
-    /// <param name="name"></param>
+    /// <param name="name">name of the player</param>
     public void AddPlayer(string name)
     {
         PlayersNum++;

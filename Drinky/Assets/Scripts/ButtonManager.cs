@@ -7,13 +7,15 @@ public class ButtonManager : MonoBehaviour
 {
     public static ButtonManager _instance;
     
+    /// <summary>
+    /// Main menu
+    /// </summary>
     [SerializeField] private GameObject Menu;
 
+    /// <summary>
+    /// Panel where we can select the game mode
+    /// </summary>
     [SerializeField] private GameObject GameModeSelector;
-
-    [SerializeField] private GameObject BusDriver;
-
-    [SerializeField] private GameObject RussianRoulette;
 
 
     private void Awake()
@@ -21,26 +23,36 @@ public class ButtonManager : MonoBehaviour
         _instance = this;
     }
 
-    public void ExitGameModeS()
+    /// <summary>
+    /// Exists from the Game mode selector
+    /// </summary>
+    public void ExitGameModeSelector()
     {
         GameModeSelector.SetActive(false);
         Menu.SetActive(true);
     }
 
+    /// <summary>
+    /// Exists from the current game mode
+    /// </summary>
     public void ExitFromGame()
     {
-        GameManager._instance.CurrentGameMode.HideCards();
+        GameModeSelect._instance.CurrentGameMode.HideCards();
 
-        Destroy(GameManager._instance.CurrentGameMode.gameObject);
-        GameManager._instance.CurrentGameMode = null;
+        Destroy(GameModeSelect._instance.CurrentGameMode.gameObject);
+        GameModeSelect._instance.CurrentGameMode = null;
         
         Menu.SetActive(true);
     }
 
+    /// <summary>
+    /// Goes to the game mode selector from main menu
+    /// </summary>
     public void MainMenuPlayButton()
     {
-        GameModeSelector.SetActive(true);
-        Menu.SetActive(false);
+        bool canStart = PlayersInput._instance.MainMenuPlayButton();
+        GameModeSelector.SetActive(canStart);
+        Menu.SetActive(!canStart);
     }
 
 }

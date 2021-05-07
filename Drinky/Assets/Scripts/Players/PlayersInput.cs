@@ -50,7 +50,7 @@ public class PlayersInput : MonoBehaviour
         {
             var newInput = Instantiate(inputField, content.transform);
 
-            newInput.text = "";
+            newInput.text = "";//default value
             inputfields.Add(newInput);
             
             PlayerManager._instance.AddPlayer(newInput.text);
@@ -65,14 +65,17 @@ public class PlayersInput : MonoBehaviour
     {
         PlayerManager._instance.RemovePlayer(idx);//remove the name
         inputfields.RemoveAt(idx);//remove the inputfield
-
     }
+
+
 
     /// <summary>
     /// If the InputField text attribute is empty, it generates a name for that player, and sets it as the text of the inputfield
     /// called when the play button is pressed in the main menu
+    /// returns false if the user try to play the game without players
     /// </summary>
-    public void MainMenuPlayButton()
+    /// <returns>if there is at least 1 player or not</returns>    
+    public bool MainMenuPlayButton()
     {
         if (inputfields.Count > 0)//if there is at least one player
         {
@@ -84,11 +87,15 @@ public class PlayersInput : MonoBehaviour
                     inputfields[i].text="Player " + (i+1).ToString();//setting the InputField text attribute
                 }
             }
+
+            return true;
         }
+
+        return false;
     }
 
     /// <summary>
-    /// return the index of the inputfield
+    /// returns the index of the inputfield
     /// </summary>
     /// <param name="inputField">Inputfield</param>
     /// <returns>the index</returns>

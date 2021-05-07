@@ -27,6 +27,8 @@ public class Deck : MonoBehaviour
 
     //the current card
     public Card currentCard;
+
+    //the previous card
     public Card previousCard=null;
 
     // Start is called before the first frame update
@@ -133,9 +135,10 @@ public class Deck : MonoBehaviour
     }
 
     /// <summary>
-    /// return the next card from the deck
+    /// Selects the next card from the cards array and sets the current card and the previous card
     /// </summary>
-    public virtual void PullCard()
+    /// <param name="currentCardPos">Position where the new card will be placed</param>
+    public virtual void PullCard(Vector3 currentCardPos)
     {
         if (previousCard != null)//making the previous card invisible
         {
@@ -154,11 +157,11 @@ public class Deck : MonoBehaviour
             ResetCards(true);
         }
 
-        previousCard.transform.position = new Vector3(-1, -1, 0);
+        previousCard.transform.position = new Vector3(currentCardPos.x - 1, currentCardPos.y - 1, 0);
         previousCard.GetComponent<SpriteRenderer>().sortingOrder = -11;
 
         //making the current card visible
-        currentCard.transform.position = new Vector3(0, 0, 0);
+        currentCard.transform.position = currentCardPos;
         currentCard.GetComponent<SpriteRenderer>().sortingOrder = 0;
         currentCard.gameObject.SetActive(true);
     }

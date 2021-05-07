@@ -283,10 +283,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Menu: {fileID: 218640735}
   GameModeSelector: {fileID: 1580614404}
-  BusDriver: {fileID: 1830706135932129084, guid: 4cd45d54cdc830347ac0e3361cc996a8,
-    type: 3}
-  RussianRoulette: {fileID: 8815082102222182693, guid: 93eeb22acb1e24748b345b63c3a2b31f,
-    type: 3}
 --- !u!4 &147344946
 Transform:
   m_ObjectHideFlags: 0
@@ -299,7 +295,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &206952564
 GameObject:
@@ -386,7 +382,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Add Player
+  m_Text: "J\xE1t\xE9kos hozz\xE1ad\xE1sa"
 --- !u!222 &206952568
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -576,7 +572,7 @@ GameObject:
   m_Component:
   - component: {fileID: 365030908}
   m_Layer: 0
-  m_Name: RussianRoulette (1)
+  m_Name: WhatsInThePocket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -750,7 +746,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 4cd173bf3a45a6f4ea9e0b35189b04cb, type: 3}
+    m_Font: {fileID: 12800000, guid: 0302b41c1bd344c75aa27df81f317832, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 1
@@ -762,7 +758,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Play
+  m_Text: Start
 --- !u!222 &499721367
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -846,7 +842,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: PLAY
+  m_Text: "J\xC1T\xC9K"
 --- !u!222 &551947695
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1075,7 +1071,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 147344945}
-        m_MethodName: ExitGameModeS
+        m_MethodName: ExitGameModeSelector
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1195,7 +1191,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 4cd173bf3a45a6f4ea9e0b35189b04cb, type: 3}
+    m_Font: {fileID: 12800000, guid: 0302b41c1bd344c75aa27df81f317832, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 1
@@ -1207,9 +1203,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Bus Driver
-
-'
+  m_Text: "Busz sof\u0151r\n"
 --- !u!222 &596165659
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1451,7 +1445,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Select game mode
+  m_Text: "V\xE1lassz j\xE1t\xE9km\xF3dot!"
 --- !u!222 &710909221
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1529,7 +1523,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Players
+  m_Text: "J\xE1t\xE9kosok"
 --- !u!222 &792018746
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1620,17 +1614,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1388347837}
-        m_MethodName: MainMenuPlayButton
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 147344945}
         m_MethodName: MainMenuPlayButton
         m_Mode: 1
@@ -1827,7 +1810,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1040418318
 GameObject:
@@ -2095,7 +2078,7 @@ Transform:
   m_Children:
   - {fileID: 563233298}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1388347834
 GameObject:
@@ -2275,6 +2258,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbd3b81333cfb0d4c86166d72dfd642c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameModes:
+  - {fileID: 1830706135932129085, guid: 4cd45d54cdc830347ac0e3361cc996a8, type: 3}
+  - {fileID: 8815082102222182692, guid: 93eeb22acb1e24748b345b63c3a2b31f, type: 3}
+  - {fileID: 7323703484969219485, guid: 2171a9b6832da2e4a9a5e95efe576db4, type: 3}
+  CurrentGameMode: {fileID: 0}
   GameModeSelector: {fileID: 1580614404}
   MainMenu: {fileID: 218640735}
 --- !u!1 &1615237657
@@ -2350,7 +2338,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 4cd173bf3a45a6f4ea9e0b35189b04cb, type: 3}
+    m_Font: {fileID: 12800000, guid: 0302b41c1bd344c75aa27df81f317832, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 1
@@ -2362,7 +2350,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'What''s in the pocket?
+  m_Text: 'Mi van a pakliban?
 
 '
 --- !u!222 &1615237661
@@ -2411,55 +2399,6 @@ RectTransform:
   m_AnchoredPosition: {x: 391.4984, y: -525}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1675671118
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1675671119}
-  - component: {fileID: 1675671120}
-  m_Layer: 0
-  m_Name: GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1675671119
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1675671118}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1675671120
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1675671118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 358656b9b2adefa4095172362be062e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameModes:
-  - {fileID: 1830706135932129085, guid: 4cd45d54cdc830347ac0e3361cc996a8, type: 3}
-  - {fileID: 8815082102222182692, guid: 93eeb22acb1e24748b345b63c3a2b31f, type: 3}
-  - {fileID: 7323703484969219485, guid: 2171a9b6832da2e4a9a5e95efe576db4, type: 3}
-  CurrentGameMode: {fileID: 3690757209735100320, guid: 4cd45d54cdc830347ac0e3361cc996a8,
-    type: 3}
 --- !u!1 &1688490092
 GameObject:
   m_ObjectHideFlags: 0
@@ -2607,7 +2546,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Play
+  m_Text: Start
 --- !u!222 &1741918685
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2828,7 +2767,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1833225034
 GameObject:
@@ -2903,7 +2842,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 4cd173bf3a45a6f4ea9e0b35189b04cb, type: 3}
+    m_Font: {fileID: 12800000, guid: 0302b41c1bd344c75aa27df81f317832, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 1
@@ -2915,7 +2854,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Russian Roulette
+  m_Text: 'Orosz Rulett
 
 '
 --- !u!222 &1833225038
@@ -3056,7 +2995,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Play
+  m_Text: Start
 --- !u!222 &1970883260
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3379,7 +3318,7 @@ PrefabInstance:
     - target: {fileID: 3751023822958607208, guid: 5d6896ae998847e48a4f79a02171d119,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3751023822958607208, guid: 5d6896ae998847e48a4f79a02171d119,
         type: 3}

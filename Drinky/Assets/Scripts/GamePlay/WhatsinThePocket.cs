@@ -6,23 +6,28 @@ using UnityEngine.UI;
 
 public class WhatsinThePocket : GameMode
 {
-   /* [SerializeField] private List<Card> pulledCards;
+    /// <summary>
+    /// number of kings which got pulled from the deck
+    /// </summary>
+    private int kingPulled = 0;
+
+    /// <summary>
+    /// task text
+    /// </summary>
     [SerializeField] private Text taskText;
-    [SerializeField] private Text actualPlayerText;
-    [SerializeField] private Text nextPlayer;
+
     
-    public override void Init()
+    public override void Init(bool b)
     {
-        base.Init();
-        pulledCards=new List<Card>();
+        base.Init(b);
     }
 
     // Start is called before the first frame update
     public override void StartGame()
     {
         base.StartGame();
-        Init();
-        nextPlayer.text = "next player: "+PlayerManager._instance.names[PlayerManager._instance.currentPlayer];
+        Init(false);
+        nameText.text = PlayerManager._instance.getCurrentPlayer();
     }
 
     // Update is called once per frame
@@ -31,160 +36,132 @@ public class WhatsinThePocket : GameMode
         
     }
 
+    /// <summary>
+    /// Sets the task text
+    /// </summary>
+    /// <param name="c">Card which got pulled</param>
     void NewTask(Card c)
     {
         switch (c.value)
         {
             case 1:
             {
-                taskText.text =
-                    "Everybody has to start drinking. You can only stop when, the player on you right stopped. " +
-                    PlayerManager._instance.names[PlayerManager._instance.currentPlayer] +
-                    " you are the first in the circle, so you can decide when you stop. ";
-                break;
+                    taskText.text = PlayerManager._instance.getCurrentPlayer() + " Válassz ki egy embert és egy italt. A kiválasztott embernek el kell kezdenie innia az italt amit kiválasztottál addig, amíg nem mondod azt hogy: STOP.";
+                    break;
             }
 
             case 2:
             {
-                taskText.text = "Your 2 neighbors has to drink.";
-                break;
+                    taskText.text = "A 2 szomszédod igyon 1 kortyot";
+                    break;
             }
             case 3:
             {
-                taskText.text = "Drink 3!";
-                break;
+                    taskText.text = "Igyál három kortyot!";
+                    break;
             }
             case 4:
             {
-                taskText.text = "Choose 1 person to drink 4!";
-                break;
+                    taskText.text = "Válassz 1 embert aki iszik 4 kortyot.";
+                    break;
             }
 
             case 5:
             {
-                taskText.text = "Boys drink 1!";
-                break;
+                    taskText.text = "A fiúk igyanak 1 kortyot!";
+                    break;
             }
             case 6:
             {
-                taskText.text="Girls drink 1";
-                break;
+                    taskText.text="A lányok igyanak 1 kortyot!";
+                    break;
             }
             case 7:
             {
-                taskText.text = "Truth or Dare. If the person who you choosed won't anserw your question or won't do the task has to drink 5";
-                break;
+                    taskText.text = "Felelsz vagy mersz. Ha az ember nem válaszol a kérdésedre, vagy nem csinálja meg a feladatot amit adtál neki annak innia kell 4 kortyot.";
+                    break;
             }
 
             case 8:
             {
-                taskText.text = "Choose your slave(Your slave has to drink with you every time).";
-                break;
+                    taskText.text = "Válaszd ki a szolgád. A szolgádnak addig kell innia amikor neked, ameddig nem lesz neki is szolgája.";
+                    break;
             }
             case 9:
             {
-                taskText.text = "Split 9 shots. You have to choose at least 2 people.";
-                break;
+                    taskText.text = "Ossz ki 9 kortyot. Legalább 2 embert kell választanod.";
+                    break;
             }
             case 10:
             {
-                taskText.text = "Put down your little finger to the desk. The last people has to drink 2!";
-                break;
+                    taskText.text = "Mindenki tegye le a kisújját az asztalra. Az utolsó aki letette igyon 2 kortyot.";
+                    break;
             }
 
             case 11:
             {
-                taskText.text = "Choose a topic. Everybody has to say a brand which connects somehow to the topic. The first people who can't say a new brand has to drink 3.";
-                break;
+                    taskText.text = "Válassz ki egy témát. Mindenkinek mondania kell egy márkát ami kapcsolódik a témához. Egy márkát nem lehet kétszer mondani. Aki elsőnek nem tud új márkát mondani annak innia kell 2 kortyot.";
+                    break;
             }
             case 12:
             {
-                taskText.text = "Never have I ever. Who has ever, drink 3.";
-                break;
+                    taskText.text = "Never have I ever. Akik még sosem csinálták, annak innia kell 2 kortyot.";
+                    break;
             }
             case 13:
             {
-                if(KingsINPulledCard()<4)
-                    taskText.text = "Create the King's mug. Pour from you drink to the King's mug. If you pulled the fourth King, you have the drink everything from the King's mug. Kings pulled: "+KingsINPulledCard().ToString();
-                else
-                {
-                    taskText.text = "Drink everything from the King's mug";
-                }
-                break;
+                    if (kingPulled == 1)
+                    {
+                        taskText.text = "Válasszatok ki egy poharat a Király poharaként. Töltsél bele az italodból.";
+                    }
+                    else if (kingPulled < 4)
+                        taskText.text = "Töltsél az italodból a Király poharába.";
+                    else
+                    {
+                        taskText.text = "Igyál meg mindent a király poharából.";
+                        kingPulled = 0;
+                    }
+                    break;
             }
         }
     }
 
-
-    int KingsINPulledCard()
+    /// <summary>
+    /// pulls a card
+    /// </summary>
+    /// <param name="currentCardPos">Position where the new card will be placed</param>
+    protected override void PullCard(Vector3 currentCardPos)
     {
-        int value = 0;
-        foreach (var card in pulledCards)
-        {
-            if (card.value == 13)
-                value++;
-        }
+        base.PullCard(currentCardPos);
 
-        return value;
+        if (deck.currentCard.value == 13)
+        {
+            kingPulled++;
+        }
     }
+
+    /// <summary>
+    /// Pulls a card and sets the task
+    /// </summary>
     public void NextCard()
     {
-        if (pulledCards.Count==52)
-        {
-            for (int i = 0; i < 49; i++)
-            {
-                pulledCards.RemoveAt(0);
-            }
-        }
-        
-        int index = Random.Range(0, 52);
-        while (pulledCards.Contains(CardManager._instance.cards[index]))
-        {
-            index = Random.Range(0, 52);
-        }
+        PullCard(new Vector3(0, -0.5f, 0));
 
-        if (pulledCards.Count > 0)
-        {
-            if (pulledCards.Count == 1)
-            {
-                pulledCards[pulledCards.Count-1].transform.position=new Vector3(-1, -2, 0);
-                pulledCards[pulledCards.Count - 1].GetComponent<SpriteRenderer>().sortingOrder = -11;
-            }
-            else
-            {
-                pulledCards[pulledCards.Count-2].gameObject.SetActive(false);
-                pulledCards[pulledCards.Count-2].transform.position=new Vector3(0, 0, 0); 
-                pulledCards[pulledCards.Count-2].GetComponent<SpriteRenderer>().sortingOrder = -10;
-                
-                pulledCards[pulledCards.Count-1].transform.position=new Vector3(-1, -2, 0); 
-                pulledCards[pulledCards.Count - 1].GetComponent<SpriteRenderer>().sortingOrder = -11;
-            }
-            
-        }
-        
-        pulledCards.Add(CardManager._instance.cards[index]);
-        CardManager._instance.cards[index].gameObject.SetActive(true);
-        CardManager._instance.cards[index].transform.position=new Vector3(0, -1, 0);
-        
-        NewTask(CardManager._instance.cards[index]);
-        
-        NextPlayertext();
+        NewTask(deck.currentCard);
+
+        taskText.gameObject.SetActive(true);
+
+        SwitchInGameContinueButtons();
+
     }
 
-    void NextPlayertext()
+    /// <summary>
+    /// handles if the continue button is pressed
+    /// </summary>
+    public override void ContinuePressed()
     {
-        if (PlayerManager._instance.currentPlayer < GameManager._instance.playersNum - 1)
-        {
-            actualPlayerText.text = PlayerManager._instance.names[PlayerManager._instance.currentPlayer];
-            PlayerManager._instance.currentPlayer++;
-            nextPlayer.text = "next player: "+PlayerManager._instance.names[PlayerManager._instance.currentPlayer];
-        }
-        else
-        {
-            actualPlayerText.text =PlayerManager._instance.names[PlayerManager._instance.currentPlayer];
-            PlayerManager._instance.currentPlayer = 0;
-            nextPlayer.text = "next player: "+PlayerManager._instance.names[PlayerManager._instance.currentPlayer];
-        }
-            
-    }*/
+        base.ContinuePressed();
+
+        taskText.gameObject.SetActive(false);
+    }
 }

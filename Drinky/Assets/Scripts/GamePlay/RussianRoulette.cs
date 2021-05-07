@@ -41,7 +41,7 @@ public class RussianRoulette : GameMode
     /// <summary>
     /// Initalizes the game to start
     /// </summary>
-    /// <param name="b"></param>
+    /// <param name="b">if true the first card will be visible</param>
     public override void Init(bool b)
     {
         base.Init(b);
@@ -81,7 +81,6 @@ public class RussianRoulette : GameMode
             while((!deck.cards[redCardIdx].isRed || inGameDeck.Contains(deck.cards[redCardIdx])))
             {
                 redCardIdx = Random.Range(0, 52);
-
             }
 
             inGameDeck.Add(deck.cards[redCardIdx]);
@@ -96,10 +95,14 @@ public class RussianRoulette : GameMode
     /// </summary>
     protected void GameOver()
     {
-        inGameButtons.SetActive(false);
-        continueButton.SetActive(true);
+        SwitchInGameContinueButtons();
 
-        shotsText.text = (pulledCards+1).ToString();
+        gameEndText.gameObject.SetActive(true);
+
+        if(gameOver)
+            shotsText.text = (pulledCards).ToString();
+        if (stop)
+            shotsText.text = "2";
 
         gameOver = false;
         stop = false;
@@ -115,15 +118,13 @@ public class RussianRoulette : GameMode
         
         if (gameOver)//pulled a black card
         {
-            gameEndText.text = PlayerManager._instance.getCurrentPlayer() + " drink " + (pulledCards+1).ToString();
-            StartCoroutine(TextAnimation(2f, gameEndText));
+            gameEndText.text = PlayerManager._instance.getCurrentPlayer() + " igyál " + (pulledCards+1).ToString() + " kortyot.";
             GameOver();
         }
 
         if (stop)//stopped
         {
-            gameEndText.text = PlayerManager._instance.getCurrentPlayer() + " drink 2";
-            StartCoroutine(TextAnimation(2f, gameEndText));
+            gameEndText.text = PlayerManager._instance.getCurrentPlayer() + " igyál kettőt.";
             GameOver();
         }       
     }
@@ -148,7 +149,7 @@ public class RussianRoulette : GameMode
         if(gameOver || stop)//if the player can't press the go button
             return;
 
-        PullCard();//pulls a card
+        PullCard(Vector3.zero);//pulls a card
 
         cardsClearedText.text = bullets.ToString()+" / "+(pulledCards).ToString();//refreshes the texts
         
@@ -164,19 +165,21 @@ public class RussianRoulette : GameMode
     }
 
     /// <summary>
-    /// Pulling from partial deck
+    /// pulls a card from partial deck
     /// </summary>
-    protected override void PullCard()
+    /// <param name="currentCardPos">Position where the new card will be placed</param>
+    protected override void PullCard(Vector3 currentcardPos)
     {
-        partailDeck.PullCard();
+        partailDeck.PullCard(currentcardPos);
         pulledCards++;
     }
 
     /// <summary>
-    /// Start a new round
+    /// Starts a new round
     /// </summary>
-    public void NewRound()
+    public override void NewRound()
     {
+        base.NewRound();
         //setting the next playeer
         NextPlayer();
         
@@ -196,9 +199,7 @@ public class RussianRoulette : GameMode
         gameEndText.gameObject.SetActive(false);
         shotsText.text = pulledCards.ToString();
 
-        //resetting the buttons
-        inGameButtons.SetActive(true);
-        continueButton.SetActive(false);
+        SwitchInGameContinueButtons();
     }
 
     /// <summary>
@@ -206,16 +207,17 @@ public class RussianRoulette : GameMode
     /// </summary>
     public void plus()
     {
-        bullets++;
+        if(bullets<52)
+            bullets++;
         cardNumText.text = bullets.ToString();
     }
 
     /// <summary>
-    /// Removes a card from partialDeck
+    /// Removes a card from the partialDeck
     /// </summary>
     public void minus()
     {
-        if (bullets > 6)
+        if (bullets > 2)
         {
             bullets--;
             cardNumText.text = bullets.ToString();

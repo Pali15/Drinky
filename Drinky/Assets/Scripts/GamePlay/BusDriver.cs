@@ -8,7 +8,7 @@ public class BusDriver : GameMode
     /// <summary>
     /// number of cards
     /// </summary>
-    private int cardNum;
+    [SerializeField]private int cardNum;
 
     /// <summary>
     /// number of shots
@@ -75,15 +75,14 @@ public class BusDriver : GameMode
         //setting the wintext
         if (shots > 0)//if the player has to drink shots
         {
-            winText.text = PlayerManager._instance.getCurrentPlayer() + " drink " + shots.ToString(); ;
+            winText.text = PlayerManager._instance.getCurrentPlayer() + " igyál " + shots.ToString() + " kortyot.";
         }
         else
         {
-            winText.text = "Congratulation " + PlayerManager._instance.getCurrentPlayer() + "!";
+            winText.text = "Gratulálok " + PlayerManager._instance.getCurrentPlayer() + "!";
         }
 
-        inGameButtons.SetActive(false);
-        continueButton.SetActive(true);
+        SwitchInGameContinueButtons();
     }
     
     /// <summary>
@@ -106,19 +105,18 @@ public class BusDriver : GameMode
         }
     }
 
-    public void ContinuePressed()
+    public override void ContinuePressed()
     {
+        base.ContinuePressed();
         //setting the shots text
         shots = 0;
         shotsText.text = shots.ToString();
-
-        NextPlayer();//settin the next player
 
         winText.gameObject.SetActive(false);//making the winText invisible
 
         cleared = false;//setting the cleared false
 
-        NewRound();
+        NewRound();    
     }
 
     /// <summary>
@@ -132,7 +130,7 @@ public class BusDriver : GameMode
             return;
         }
 
-        PullCard();//pulling a card
+        PullCard(Vector3.zero);//pulling a card
 
         //if the current or the previous card is ace then the game over is impossible
         if (deck.currentCard.value != 1 && deck.previousCard.value != 1)//if the previous card is not ace nor the current card
@@ -164,8 +162,9 @@ public class BusDriver : GameMode
     /// <summary>
     /// Makes a new round
     /// </summary>
-    public void NewRound()
+    public override void NewRound()
     {
+        base.NewRound();
         //resetting the cards and the cardClearedText
         pulledCards = 0;
 
@@ -176,10 +175,6 @@ public class BusDriver : GameMode
         cardsClearedText.text = cardNum.ToString() + " / 0";
 
         deck.previousCard = null;
-
-        //resetting the buttons
-        inGameButtons.SetActive(true);
-        continueButton.SetActive(false);
     }
 
     /// <summary>
@@ -187,7 +182,9 @@ public class BusDriver : GameMode
     /// </summary>
     public void AddCard()
     {
-        cardNum++;
+        if(cardNum<52)
+            cardNum++;
+
         cardNumText.text = cardNum.ToString();
     }
 

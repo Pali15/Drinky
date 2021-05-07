@@ -37,13 +37,13 @@ public class PartialDeck : Deck
     {
         SetCards(deck);
         CurrentIdx = 0;
-        a = CurrentIdx;
     }
 
     /// <summary>
-    /// Pulls a card
+    /// Selects the next card from the cards array and sets the current card and the previous card
     /// </summary>
-    public override void PullCard()
+    /// <param name="currentCardPos">Position where the new card will be placed</param>
+    public override void PullCard(Vector3 currentcardPos)
     {
         if (previousCard != null)//making the previous card invisible
         {
@@ -58,11 +58,11 @@ public class PartialDeck : Deck
         currentCard = cards[CurrentIdx];//setting the new currentcard
         
         //setting the positions of the cards
-        previousCard.transform.position = new Vector3(-1, -1, 0);
+        previousCard.transform.position = new Vector3(currentcardPos.x - 1, currentcardPos.y - 1, 0);
         previousCard.GetComponent<SpriteRenderer>().sortingOrder = -11;
 
         //making the current card visible
-        currentCard.transform.position = new Vector3(0, 0, 0);
+        currentCard.transform.position = currentcardPos;
         currentCard.GetComponent<SpriteRenderer>().sortingOrder = 0;
         currentCard.gameObject.SetActive(true);
     }
